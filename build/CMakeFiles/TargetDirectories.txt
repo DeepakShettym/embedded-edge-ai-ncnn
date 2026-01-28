@@ -1,0 +1,5 @@
+/home/deepak/ai_inference_service/build/CMakeFiles/ai_inference_service.dir
+/home/deepak/ai_inference_service/build/CMakeFiles/ai_image_infer.dir
+/home/deepak/ai_inference_service/build/CMakeFiles/thermal_ai_service.dir
+/home/deepak/ai_inference_service/build/CMakeFiles/edit_cache.dir
+/home/deepak/ai_inference_service/build/CMakeFiles/rebuild_cache.dir
