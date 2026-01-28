@@ -2,87 +2,63 @@
 
 This repository contains **native C++ embedded AI projects** built using the **NCNN inference framework**, targeting **ARM-based embedded and Android systems**.
 
-The focus is on **system-level, hardware-aware AI**, not application-level ML.
+The focus is on **system-level, hardware-aware, and real-time aware AI**, not application-level or cloud-based ML.
 
 ---
 
 ## 🚀 Projects Included
 
-### 1️⃣ Basic AI Inference Service
-**File:** `main.cpp`
+---
 
+## 1️⃣ Basic AI Inference Service  
+**File:** `src/main.cpp`
+
+A minimal native AI service demonstrating how NCNN can be used at **system level** without Android app components.
+
+### Features
 - Loads NCNN framework
-- Runs as a long-running native service
-- Demonstrates system-level AI execution
-- No UI, no Android app layer
+- Runs as a long-running native process
+- No UI, no Android framework dependency
 
-**Concepts:**
+### Concepts
 - Native C++
 - ARM64 execution
-- Long-running daemon
+- Long-running daemon-style program
 
 ---
 
-### 2️⃣ Image Classification Pipeline
-**File:** `image_infer.cpp`
+## 2️⃣ Image Classification Pipeline  
+**File:** `src/image_infer.cpp`
 
+An end-to-end **on-device image inference pipeline** implemented fully in native C++.
+
+### Features
 - Loads a real JPG image from filesystem
 - Decodes image using `stb_image`
-- Resizes & normalizes input
+- Resizes and normalizes input
 - Runs inference using SqueezeNet (NCNN)
-- Outputs top prediction & confidence
+- Outputs top prediction and confidence
 
-**Concepts:**
-- Image → tensor pipeline
+### Concepts
+- Image → tensor preprocessing pipeline
 - On-device inference
-- Memory handling
-- No Python / no OpenCV
+- Explicit memory handling
+- No Python
+- No OpenCV
+- No Java/Kotlin
 
 ---
 
-### 3️⃣ Thermal-Aware Embedded AI Service ⭐
-**File:** `thermal_ai_service.cpp`
+## 3️⃣ Thermal-Aware & Real-Time Embedded AI Service ⭐  
+**File:** `src/thermal_ai_service.cpp`
 
-- Reads CPU temperature from Linux sysfs  
-  `/sys/class/thermal/thermal_zone0/temp`
-- Dynamically adapts AI behavior:
-  - Full speed when cool
-  - Throttled when warm
-  - Paused when hot
-- Runs continuously as a system service
+A **hardware-aware, real-time aware AI service** designed for embedded and edge systems.
 
-**Why this matters:**
-- Demonstrates **embedded / edge AI**
-- Hardware-aware decision making
-- Not possible in normal apps or cloud ML
+This service continuously monitors CPU temperature and dynamically adapts AI behavior to protect hardware and ensure predictable system behavior.
 
 ---
 
-## 🧠 Key Embedded Concepts Demonstrated
+### 🔥 Thermal Awareness (Hardware-Level)
 
-- Native ARM64 AI inference
-- Linux sysfs hardware access
-- Long-running daemons
-- Thermal safety logic
-- Resource-aware AI execution
-- Edge AI deployment
+The service reads real CPU temperature from Linux sysfs:
 
----
-
-## 🛠️ Tech Stack
-
-- Language: **C++**
-- AI Framework: **NCNN**
-- Platform: **Android / Embedded Linux**
-- Architecture: **ARM64**
-- Image decoding: **stb_image**
-
----
-
-## 🎯 How to Run (Summary)
-
-1. Build using Android NDK + CMake
-2. Push binaries, models, and images to device
-3. Set:
-   ```bash
-   export LD_LIBRARY_PATH=/data/local/tmp
