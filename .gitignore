@@ -1,0 +1,13 @@
+# Build artifacts
+build/
+
+# Object files
+*.o
+
+# Binaries
+thermal_ai_service
+ai_image_infer
+ai_inference_service
+
+# Android / NDK
+*.so
