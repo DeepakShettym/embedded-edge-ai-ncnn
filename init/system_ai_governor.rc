@@ -1,0 +1,7 @@
+service system_ai_governor /data/local/tmp/system_ai_governor
+    class late_start
+    user shell
+    group shell
+    disabled
+
+
