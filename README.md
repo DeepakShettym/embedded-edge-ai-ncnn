@@ -1,64 +1,129 @@
-# Embedded Edge AI using NCNN (Android / Linux)
+# Embedded Edge AI using NCNN
 
-This repository contains **native C++ embedded AI projects** built using the **NCNN inference framework**, targeting **ARM-based embedded and Android systems**.
+This repository demonstrates **on-device / embedded AI inference** using **NCNN** and **native C++**. The focus is on running AI models **without Python, Java, or Android app frameworks**, keeping the design close to **system-level and embedded engineering** practices.
 
-The focus is on **system-level, hardware-aware, and real-time aware AI**, not application-level or cloud-based ML.
-
----
-
-## 🚀 Projects Included
+The project is intentionally simple and transparent so that model loading, file I/O, and inference flow are easy to understand and extend.
 
 ---
 
-## 1️⃣ Basic AI Inference Service  
-**File:** `src/main.cpp`
+## 🔹 What this repository contains
 
-A minimal native AI service demonstrating how NCNN can be used at **system level** without Android app components.
+* Native C++ examples using **NCNN**
+* Loading and running models using **`.param` + `.bin`**
+* A clean **CMake-based build** (no Gradle, no APK)
+* Code suitable for **Android NDK**, Linux, and embedded targets
 
-### Features
-- Loads NCNN framework
-- Runs as a long-running native process
-- No UI, no Android framework dependency
-
-### Concepts
-- Native C++
-- ARM64 execution
-- Long-running daemon-style program
+This repo is meant as a **foundation** for building more advanced edge-AI services.
 
 ---
 
-## 2️⃣ Image Classification Pipeline  
-**File:** `src/image_infer.cpp`
+## 🔹 Why NCNN
 
-An end-to-end **on-device image inference pipeline** implemented fully in native C++.
+NCNN is a high‑performance neural network inference framework written in C++ and optimized for mobile and embedded devices.
 
-### Features
-- Loads a real JPG image from filesystem
-- Decodes image using `stb_image`
-- Resizes and normalizes input
-- Runs inference using SqueezeNet (NCNN)
-- Outputs top prediction and confidence
+Key reasons for using NCNN:
 
-### Concepts
-- Image → tensor preprocessing pipeline
-- On-device inference
-- Explicit memory handling
-- No Python
-- No OpenCV
-- No Java/Kotlin
+* No Python runtime
+* No JVM / Android framework dependency
+* Small binary size
+* Optimized for ARM (NEON)
+* Predictable latency and memory usage
+
+NCNN is well suited for **system services, daemons, and embedded pipelines**.
 
 ---
 
-## 3️⃣ Thermal-Aware & Real-Time Embedded AI Service ⭐  
-**File:** `src/thermal_ai_service.cpp`
+## 📁 Project Structure
 
-A **hardware-aware, real-time aware AI service** designed for embedded and edge systems.
+```
+embedded-edge-ai-ncnn/
+│
+├── build/                  # Build output and project binaries
+│
+├── models/                 # NCNN trained model files
+│   ├── *.param             # NCNN network structure
+│   └── *.bin               # NCNN trained weights
+│
+├── src/                    # Source code for the inference projects
+│   ├── main.cpp            # Basic AI inference example
+│   ├── image_infer.cpp     # Image classification pipeline
+│   ├── thermal_ai_service.cpp  # Example of a hardware-aware AI service
+│   └── ...                # Other source files (depends on what’s in the repo)
+│
+├── .gitignore              # Git ignore rules
+├── CMakeLists.txt          # Top-level build configuration
+└── README.md               # Top-level documentation
+```
 
-This service continuously monitors CPU temperature and dynamically adapts AI behavior to protect hardware and ensure predictable system behavior.
+> **Note:** `build/` is generated locally by CMake and may not be committed to Git.
 
 ---
 
-### 🔥 Thermal Awareness (Hardware-Level)
+## 🔹 Model format (.param / .bin)
 
-The service reads real CPU temperature from Linux sysfs:
+NCNN separates a model into two files:
 
+* **`.param`** – describes the network structure (layers, connections)
+* **`.bin`** – contains trained weights and biases (binary data)
+
+Both files are required at runtime.
+
+---
+
+## 🔹 Build (Linux / Android NDK)
+
+### Example (Linux)
+
+```bash
+mkdir -p build
+cd build
+cmake ..
+make
+```
+
+### Example (Android NDK – concept)
+
+```bash
+cmake .. \
+  -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
+  -DANDROID_ABI=arm64-v8a \
+  -DANDROID_PLATFORM=android-29
+
+make
+```
+
+The output is a **native binary**, not an APK.
+
+---
+
+## 🔹 Runtime flow (high level)
+
+1. Binary starts
+2. NCNN network is initialized
+3. `.param` and `.bin` are loaded from disk
+4. Input data is prepared (image / tensor)
+5. Inference is executed
+6. Output is read and processed
+
+This flow maps cleanly to **embedded and system-level deployments**.
+
+---
+
+## 🔹 Current status
+
+* [x] Native C++ inference examples
+* [x] NCNN model loading
+* [x] CMake-based build
+
+---
+
+## 🔹 Author
+
+**Deepak Shetty**
+Software Engineer | Embedded & Edge AI
+
+---
+
+## 🔹 License
+
+This repository is for learning, experimentation, and demonstration purposes.
