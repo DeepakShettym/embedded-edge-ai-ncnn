@@ -41,3 +41,6 @@ target_link_libraries(thermal_ai_service
     android
     log
 )
+
+add_executable(system_ai_governor src/system_ai_governor.cpp)
+target_link_libraries(system_ai_governor ncnn)
