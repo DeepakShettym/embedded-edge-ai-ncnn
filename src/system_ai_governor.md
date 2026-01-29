@@ -190,7 +190,8 @@ OK MODE OFF
 t527-demo-car:/ $ echo "SET_MODE AUTO" | nc -U /data/local/tmp/system_ai.sock
 OK MODE AUTO
 
-t527-demo-car:/ $ echo "STATUS" | nc -U /data/local/tmp/system_ai.sock                                                                        TEMP=53.872002 CPU=1.002508 MODE=0
+t527-demo-car:/ $ echo "STATUS" | nc -U /data/local/tmp/system_ai.sock                                                                       
+TEMP=53.872002 CPU=1.002508 MODE=0
 
 
 ```
