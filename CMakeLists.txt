@@ -44,3 +44,17 @@ target_link_libraries(thermal_ai_service
 
 add_executable(system_ai_governor src/system_ai_governor.cpp)
 target_link_libraries(system_ai_governor ncnn)
+
+
+add_executable(thermal_ai_service_LED
+    src/thermal_ai_service_LED.cpp
+    src/led_controller.cpp
+    src/thermal_monitor.cpp
+)
+
+target_link_libraries(thermal_ai_service_LED
+    ncnn
+    android
+    log
+)
+

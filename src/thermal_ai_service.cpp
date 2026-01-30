@@ -36,7 +36,7 @@ int main() {
         return -1;
     }
 
-    printf("AI model loaded\n");
+   printf("AI model loaded\n");
 
     // Dummy input (image replaced later if needed)
     ncnn::Mat input(227, 227, 3);
@@ -46,21 +46,20 @@ int main() {
         int temp = read_cpu_temp();
 
         if (temp < 0) {
-            printf("Failed to read temperature\n");
-            sleep(2);
-            continue;
+           printf("Failed to read temperature\n");
+           sleep(2);
+          continue;
         }
-
         float temp_c = temp / 1000.0f;
         printf("CPU Temp: %.1f°C\n", temp_c);
 
         //Thermal policy
-        if (temp_c > 65.0f) {
+       if (temp_c > 65.0f) {
             printf("TOO HOT → Pausing AI\n");
             sleep(5);
             continue;
-        }
-
+        
+}
         if (temp_c > 55.0f) {
             printf(" Warm → Reducing AI speed\n");
             net.opt.num_threads = 1;
@@ -70,38 +69,39 @@ int main() {
             net.opt.num_threads = 4;
         }
 
+
         // Run inference
         // -----------------------------
-	// Real-time inference timing
-	// -----------------------------
+       // Real-time inference timing
+       // -----------------------------
 
-	struct timespec start, end;
-	clock_gettime(CLOCK_MONOTONIC, &start);
+       struct timespec start, end;
+       clock_gettime(CLOCK_MONOTONIC, &start);
 
 
-	ncnn::Extractor ex = net.create_extractor();
-	ex.input("data", input);
+       ncnn::Extractor ex = net.create_extractor();
+       ex.input("data", input);
 
-	ncnn::Mat output;
-	ex.extract("prob", output);
+       ncnn::Mat output;
+       ex.extract("prob", output);
 
-	clock_gettime(CLOCK_MONOTONIC, &end);
+       clock_gettime(CLOCK_MONOTONIC, &end);
 
-	// Calculate inference time in ms
-	long inference_ms =
-   	 (end.tv_sec - start.tv_sec) * 1000 +
-    	(end.tv_nsec - start.tv_nsec) / 1000000;
+       // Calculate inference time in ms
+       long inference_ms =
+        (end.tv_sec - start.tv_sec) * 1000 +
+       (end.tv_nsec - start.tv_nsec) / 1000000;
 
 // Deadline check
-	if (inference_ms > INFERENCE_DEADLINE_MS) {
-    	printf("Deadline MISSED: %ld ms (limit %d ms) → Result DROPPED\n",
+       if (inference_ms > INFERENCE_DEADLINE_MS) {
+       printf("Deadline MISSED: %ld ms (limit %d ms) → Result DROPPED\n",
            inference_ms, INFERENCE_DEADLINE_MS);
-	} else {
-    	printf(" Inference OK: %ld ms (within deadline)\n", inference_ms);
-	}
+       } else {
+       printf(" Inference OK: %ld ms (within deadline)\n", inference_ms);
+       }
 
         sleep(2);
     }
 
-    return 0;
+   return 0;
 }
